@@ -112,7 +112,8 @@ public final class SPdrugManager {
     public enum QuickTimeAction {
         RIGHT_CLICK,
         SNEAK,
-        SWAP
+        SWAP,
+        LEFT_CLICK
     }
 
     private static final class QuickTimeSession {
@@ -771,6 +772,7 @@ public final class SPdrugManager {
                     case RIGHT_CLICK -> cfg.messageLine("minigame-action-rmb", "RMB");
                     case SNEAK -> cfg.messageLine("minigame-action-sneak", "Shift");
                     case SWAP -> cfg.messageLine("minigame-action-swap", "F");
+                    case LEFT_CLICK -> cfg.messageLine("minigame-action-lmb", "LMB");
                 };
         String modeLabel =
                 "drying".equals(q.mode)
@@ -791,13 +793,16 @@ public final class SPdrugManager {
     }
 
     private static QuickTimeAction randomQuickTimeAction() {
-        // El Reino 6 (fork): la tecla F (SWAP) se quita del sorteo porque choca con la tecla
-        // de casteo de MMOCore (SWAP_HANDS). El minijuego de secado usa solo clic derecho + Shift.
-        int r = ThreadLocalRandom.current().nextInt(2);
+        // El Reino 6 (fork): la tecla F (SWAP) se sustituye por CLIC IZQUIERDO (LEFT_CLICK) porque
+        // la F choca con la tecla de casteo de MMOCore (SWAP_HANDS). Secado = clic dcho / Shift / clic izq.
+        int r = ThreadLocalRandom.current().nextInt(3);
         if (r == 0) {
             return QuickTimeAction.RIGHT_CLICK;
         }
-        return QuickTimeAction.SNEAK;
+        if (r == 1) {
+            return QuickTimeAction.SNEAK;
+        }
+        return QuickTimeAction.LEFT_CLICK;
     }
 
     public void startSynthesis(Player player, Location labBlock, List<Material> sequence, ItemStack[] slotClones) {

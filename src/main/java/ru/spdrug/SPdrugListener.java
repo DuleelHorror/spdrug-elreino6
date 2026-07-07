@@ -58,6 +58,17 @@ public final class SPdrugListener implements Listener {
             }
         }
 
+        // El Reino 6 (fork): clic izquierdo como accion del minijuego de secado (sustituye a la F).
+        // handleQuickTimeAction devuelve false si no hay sesion de secado activa -> no molesta al juego normal.
+        if (event.getAction() == org.bukkit.event.block.Action.LEFT_CLICK_AIR
+                || event.getAction() == org.bukkit.event.block.Action.LEFT_CLICK_BLOCK) {
+            if (manager.handleQuickTimeAction(
+                    player, SPdrugManager.QuickTimeAction.LEFT_CLICK, player.getLocation())) {
+                event.setCancelled(true);
+                return;
+            }
+        }
+
         if (event.getAction() == org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK && clicked != null) {
             if (ItemFactory.isGrowthWatch(player.getInventory().getItemInMainHand(), manager.getKeys())
                     && (clicked.getType() == Material.FERN || clicked.getType() == Material.LARGE_FERN)) {
