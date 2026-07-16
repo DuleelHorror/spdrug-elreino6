@@ -1,44 +1,32 @@
-# Changelog
+**This release contains a lot of fixes, changes, and a few feature additions. I would HIGHLY recommend upgrading to this verison if you are using any type of SQL storage method.**
 
-All notable changes to **SPdruG** are documented in this file.
 
-## 1.3.6
+## Changes
+- SQLite is now the default storage method for BreweryX. For servers that experience slow saving times with `FlatFile` storage, you should migrate to SQLite, MySQL, or MongoDB. **~ by Nadwey**
+  `->` To migrate, start your server using the storage method `FlatFile`. Next, change your storage method to `SQLite` or another database storage method. Finally, run: `/brew data reload` and `/brew data save` to finalize your migration.
 
-### Localization
-- Updated and expanded Russian locale strings in `lang/ru.yml`.
-- Synced locale key usage with `LocaleStrings` so UI/messages resolve correctly from locale files.
 
-### Documentation
-- Updated `docs/WIKI.md` and generated `docs/WIKI.html` with current mechanics/config details.
-- Added English wiki versions: `docs/WIKI.en.md` and `docs/WIKI.en.html`.
+## Additions
+- You can now configure barrel inventory sizes **~ by Mitality**
+- BreweryX now hooks into the [Lands](https://www.spigotmc.org/resources/53313) plugin. **~ by Mitality**
+- You can now configure your own custom translations in BreweryX **~ by Thorinwasher**
+- Added a Ukranian translation **~ by Thorinwasher**
 
-## 1.3.5
 
-- Default **drug `display-name`** values in `config.yml` are **English** (Mephedrone, LSD, Cocaine, Cannabis, Heroin, Amphetamine, Tobacco product; MDMA unchanged).
-- **`farm.grass-break-special-seed-chance-percent`** default is **10** (was 20).
+### Fixes
+- Fixes SQL storage methods not deleting objects from the database. If you're using an older version of BreweryX with an SQL database, you should update! **~ by Jsinco**
+- Fixes Brewery not recognizing `cauldron.yml` recipes, [reference here](https://discord.com/channels/1108854517048549396/1331903625655615509/1331903625655615509) **~ by Jsinco**
 
-## 1.3.0
 
-### Localization
-- Added `general.language` in `config.yml` (`ru` / `en`).
-- Bundled `lang/en.yml` and `lang/ru.yml` — UI strings load from the language file first, then fall back to `config.yml`.
-- `/spdrug reload` now reloads locale data after the config is re-read.
+**That's it, Github generated release notes are below. Have a good day and go get your new version from [Modrinth](https://modrinth.com/plugin/breweryx/version/gbkMRZcU)**
 
-### Farm & field tuning (`config.yml`)
-- **Field fern** (special seeds): `field-herb-grow-duration-seconds` and `field-herb-grow-speed-multiplier` are documented; they control time-to-mature for plugin ferns (glowstone boost unchanged).
-- **Greenhouse wheat**: `greenhouse-wheat-grow-speed-multiplier` — speeds vanilla wheat growth inside greenhouse zones (Paper `BlockGrowEvent`).
-- **Grass drops**: `grass-break-special-seed-chance-percent` (0–100) replaces the hardcoded chance for special seeds from short/tall grass.
-- **Seed type weights**: `grass-break-special-seed-weights` (`cannabis`, `cocaine`, `tobacco`) — weighted roll when a special seed drops.
 
-### Recipe book & vanilla recipes
-- Written **SPdrug recipe book**: separate page for **growth watch** (shapeless ingredients + note about any order).
-- **Vanilla recipe book**: players **discover** plugin crafting recipes on join and after `/spdrug reload` (`discoverRecipe`) — growth watch, lab/farm placers, cigarettes where applicable.
+## What's Changed
+* Set SQLite as the default storage type by @Nadwey in https://github.com/BreweryTeam/BreweryX/pull/96
+* Fix: SQL saving, Cauldron brew matching by @Jsinco in https://github.com/BreweryTeam/BreweryX/pull/105
+* Fix lore of sealed potions by @Nadwey in https://github.com/BreweryTeam/BreweryX/pull/95
+* Allow custom translations by @Thorinwasher in https://github.com/BreweryTeam/BreweryX/pull/103
+* Ukrainian translation by @Thorinwasher in https://github.com/BreweryTeam/BreweryX/pull/102
 
-### Commands & messages
-- Admin help, give feedback, book/give player-only messages, and field-herb action bar lines use the locale system where applicable.
 
----
-
-## 1.2.11 (and earlier bundled work)
-
-- Initial merge of locale infrastructure, extended `config.yml` keys, and Gradle `1.2.11` artifact; superseded by **1.3.0** for a single release that includes book + discover + farm tuning in one build.
+**Full Changelog**: https://github.com/BreweryTeam/BreweryX/compare/3.4.9...3.4.10
