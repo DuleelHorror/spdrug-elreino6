@@ -537,6 +537,14 @@ public class Brew implements Cloneable {
         lore.updateQualityStars(false, true);
         lore.write();
 
+        // El Reino 6: al SELLAR, renombrar la birra anadiendo " (sellada)" y dejar el lore limpio.
+        // Asi las quests pueden EXIGIR la birra SELLADA de verdad (BreweryX no marca el sellado de forma
+        // visible por defecto). Las selladas son immutable -> ningun metodo re-genera su nombre -> persiste.
+        if (meta.hasDisplayName() && !meta.getDisplayName().contains("(sellada)")) {
+            meta.setDisplayName(meta.getDisplayName() + " §7(sellada)");
+        }
+        meta.setLore(null);
+
         stripped = true;
         ingredients = new BIngredients();
         ageTime = 0;
