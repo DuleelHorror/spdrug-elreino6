@@ -388,6 +388,19 @@ public final class SPdrugConfig {
         return out;
     }
 
+    /**
+     * custom-model-data de un item, para packs de texturas (ItemsAdder, Oraxen, Nexo...).
+     *
+     * <p>Se lee de la misma seccion donde ya viven el `name` y el `lore` de ese item, con la clave
+     * `custom-model-data`. Devuelve 0 si no esta puesto, y 0 significa "no tocar el modelo": asi
+     * el plugin se comporta EXACTAMENTE igual que antes para quien no use un pack.
+     *
+     * <p>Ejemplos de ruta: `items.growth-watch`, `items.herb-raw-types.cannabis`, `drugs.cannabis`.
+     */
+    public int customModelData(String path) {
+        return Math.max(0, c().getInt(path + ".custom-model-data", 0));
+    }
+
     public int cigaretteMaxUses() {
         int v = c().getInt("cigarette.max-uses", 5);
         return Math.max(1, Math.min(20, v));

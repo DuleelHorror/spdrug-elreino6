@@ -35,6 +35,22 @@ public final class ItemFactory {
 
     private ItemFactory() {}
 
+    /**
+     * Aplica el custom-model-data si la config lo trae (0 = no tocar nada).
+     *
+     * <p>Es lo unico que hace falta para que un pack de texturas (ItemsAdder, Oraxen, Nexo...)
+     * pueda darle sprite propio a los items del plugin. Sin esto no hay forma: los items los
+     * fabrica el plugin y su modelo es el del material vanilla.
+     *
+     * <p>NO cambia el material, ni el nombre, ni el lore, ni el PersistentDataContainer, que es
+     * de donde el plugin saca de que planta es cada cosa. Solo el modelo con el que se dibuja.
+     */
+    private static void applyModel(ItemMeta m, int cmd) {
+        if (m != null && cmd > 0) {
+            m.setCustomModelData(cmd);
+        }
+    }
+
     /** Пустой / wild → cannabis, чтобы не создавать отдельные «Конопля» / «Сушёный сбор» без ветки. */
     private static String normalizeHerbTypeKey(String herbType) {
         if (herbType == null || herbType.isBlank() || "wild".equalsIgnoreCase(herbType.trim())) {
@@ -82,6 +98,7 @@ public final class ItemFactory {
             m.displayName(cfg.itemHerbRawName(type));
             m.lore(cfg.itemHerbRawLore(type));
             m.getPersistentDataContainer().set(keys.itemKind, PersistentDataType.STRING, KIND_HERB_RAW + ":" + type);
+            applyModel(m, cfg.customModelData("items.herb-raw-types." + type));
             s.setItemMeta(m);
         }
         return s;
@@ -99,6 +116,7 @@ public final class ItemFactory {
             m.displayName(cfg.itemDriedBatchName(type));
             m.lore(cfg.itemDriedBatchLore(type));
             m.getPersistentDataContainer().set(keys.itemKind, PersistentDataType.STRING, KIND_DRIED_BATCH + ":" + type);
+            applyModel(m, cfg.customModelData("items.dried-batch-types." + type));
             s.setItemMeta(m);
         }
         return s;
@@ -125,6 +143,7 @@ public final class ItemFactory {
             m.displayName(cfg.itemGrowthWatchName());
             m.lore(cfg.itemGrowthWatchLore());
             m.getPersistentDataContainer().set(keys.itemKind, PersistentDataType.STRING, KIND_GROWTH_WATCH);
+            applyModel(m, cfg.customModelData("items.growth-watch"));
             s.setItemMeta(m);
         }
         return s;
@@ -137,6 +156,7 @@ public final class ItemFactory {
             m.displayName(cfg.itemCigaretteEmptyName());
             m.lore(cfg.itemCigaretteEmptyLore());
             m.getPersistentDataContainer().set(keys.itemKind, PersistentDataType.STRING, KIND_CIGARETTE_EMPTY);
+            applyModel(m, cfg.customModelData("items.cigarette-empty"));
             s.setItemMeta(m);
         }
         return s;
@@ -151,6 +171,7 @@ public final class ItemFactory {
             m.lore(cfg.itemCigaretteLoadedLore(safeUses));
             m.getPersistentDataContainer().set(keys.itemKind, PersistentDataType.STRING, KIND_CIGARETTE_LOADED);
             m.getPersistentDataContainer().set(keys.cigaretteUses, PersistentDataType.INTEGER, safeUses);
+            applyModel(m, cfg.customModelData("items.cigarette-loaded"));
             s.setItemMeta(m);
         }
         return s;
@@ -468,6 +489,7 @@ public final class ItemFactory {
             m.displayName(cfg.itemDrugName(drug.getDisplayName()));
             m.lore(cfg.itemDrugLore(drug.getId(), drug.getDisplayName()));
             m.getPersistentDataContainer().set(keys.drugId, PersistentDataType.STRING, drug.getId());
+            applyModel(m, cfg.customModelData("drugs." + drug.getId()));
             st.setItemMeta(m);
         }
         return st;
